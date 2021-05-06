@@ -1,0 +1,249 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button>
+        <ion-icon name="person-add-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Alta de cliente</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon name="close-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="light" class="ion-padding">
+  <div class="segment-container">
+    <ion-segment mode="ios" [(ngModel)]="clientType">
+      <ion-segment-button value="P">
+        <ion-label>Particular</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="E">
+        <ion-label>Empresa</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <form [formGroup]="clientAddForm" (submit)="onSubmit()" method="post">
+
+    <ion-item class="input" hidden="true">
+      <ion-input readonly type="text" name="clientType" formControlName="clientType" [(ngModel)]="clientType">
+      </ion-input>
+    </ion-item>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col class="padding-vertical-8">
+          <ion-label>Identificación</ion-label>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+
+        <ion-col size-md="3" size="6">
+          <ion-item>
+            <ion-label color="medium" position="floating">Tipo Id</ion-label>
+            <ion-select interface="popover" name="identificationType" formControlName="identificationType">
+              <ion-select-option value="P">Pasaporte</ion-select-option>
+              <ion-select-option value="C">CIF</ion-select-option>
+              <ion-select-option value="N">NIF</ion-select-option>
+              <ion-select-option value="T">NIE</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+        </ion-col>
+        <ion-col size-md="3" size="6">
+          <ion-item class="input">
+            <ion-label color="medium" position="floating">Identificación</ion-label>
+            <ion-input required type="text" name="identification" formControlName="identification"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size-md="3" size="6" *ngIf="clientType=='P'">
+          <ion-item>
+            <ion-label color="medium" position="floating">Sr/Sra</ion-label>
+            <ion-select interface="popover" name="gender" formControlName="gender">
+              <ion-select-option value="F">Mujer</ion-select-option>
+              <ion-select-option value="M">Hombre</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+        </ion-col>
+
+        <ion-col size-md="3" size="6" *ngIf="clientType=='P'">
+          <ion-item>
+            <ion-label color="medium" position="floating">Fecha Nacimiento</ion-label>
+            <ion-datetime displayFormat="DD/MM/YYYY" min="1900-01-01"></ion-datetime>
+          </ion-item>
+        </ion-col>
+
+        <ion-col size-md="6" size="12">
+          <ion-item class="input">
+            <ion-label color="medium" position="floating">Nombre</ion-label>
+            <ion-input type="text" name="name" formControlName="name"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size-md="6" size="12" *ngIf="clientType=='P'">
+          <ion-item class="input">
+            <ion-label color="medium" position="floating">Primer Apellido</ion-label>
+            <ion-input type="text" name="lastName1" formControlName="lastName1"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size-md="6" size="12" *ngIf="clientType=='P'">
+          <ion-item class="input">
+            <ion-label color="medium" position="floating">Segundo Apellido</ion-label>
+            <ion-input type="text" name="lastName2" formControlName="lastName2"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size-md="3" size="6">
+          <ion-item class="input">
+            <ion-label color="medium" position="floating">Referral</ion-label>
+            <ion-input type="number" name="referrerId" formControlName="referrerId"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col class="padding-vertical-8">
+          <ion-label>Contacto</ion-label>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-md="3" size="12">
+          <ion-item class="input">
+            <ion-label color="medium" position="floating">Teléfono</ion-label>
+            <ion-input type="tel" name="phoneNumber" minlength=9 formControlName="phoneNumber"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size-md="9" size="12">
+          <ion-item class="input">
+            <ion-label color="medium" position="floating">Email</ion-label>
+            <ion-input type="email" name="email" formControlName="email"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col class="padding-vertical-8">
+          <ion-label>Domicilio</ion-label>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="12">
+          <ion-item class="input">
+            <ion-label color="medium" position="floating">Dirección</ion-label>
+            <ion-input type="text" name="address"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size-md="3" size="12">
+          <ion-item class="input">
+            <ion-label color="medium" position="floating">Código postal</ion-label>
+            <ion-input type="number" name="zipCode"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size-md="3" size="12">
+          <ion-item class="input">
+            <ion-label color="medium" position="floating">Localidad</ion-label>
+            <ion-input type="text" name="city"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size-md="3" size="12">
+          <ion-item class="input">
+            <ion-label color="medium" position="floating">Provincia</ion-label>
+            <ion-select interface="popover" name="province">
+              <ion-select-option *ngFor="let item of provinces| keyvalue" [value]="item.key">
+                {{item.value}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col class="padding-vertical-8">
+          <ion-label>Misc</ion-label>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size-md="9" size="12">
+          <ion-item class="input">
+            <ion-label color="medium" position="floating">Observaciones</ion-label>
+            <ion-input type="text" name="observation"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size-md="3" size="12">
+          <ion-item>
+            <ion-label color="medium" position="floating">VIP</ion-label>
+            <ion-select interface="popover" name="vip">
+              <ion-select-option value="0">No</ion-select-option>
+              <ion-select-option value="1">Sí</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngIf="clientType=='E'">
+        <ion-col class="padding-vertical-8">
+          <ion-label>Representantes</ion-label>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="clientType=='E'">
+        <ion-col size-md="6" size="12">
+          <ion-item class="input">
+            <ion-label color="medium" position="floating">Nombre</ion-label>
+            <ion-input type="text" name="representative.name" formControlName="representative.name"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size-md="6" size="12">
+          <ion-item class="input">
+            <ion-label color="medium" position="floating">Apellidos</ion-label>
+            <ion-input type="text" name="representative.lastName1" formControlName="representative.lastName1">
+            </ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size-md="3" size="6">
+          <ion-item>
+            <ion-label color="medium" position="floating">Tipo Id</ion-label>
+            <ion-select interface="popover" name="representative.identificationType"
+              formControlName="representative.identificationType">
+              <ion-select-option value="P">Pasaporte</ion-select-option>
+              <ion-select-option value="C">CIF</ion-select-option>
+              <ion-select-option value="N">NIF</ion-select-option>
+              <ion-select-option value="T">NIE</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+        </ion-col>
+        <ion-col size-md="3" size="6">
+          <ion-item class="input">
+            <ion-label color="medium" position="floating">Identificación</ion-label>
+            <ion-input required type="text" name="representative.identification"
+              formControlName="representative.identification"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size-md="3" size="12">
+          <ion-item class="input">
+            <ion-label color="medium" position="floating">Teléfono</ion-label>
+            <ion-input type="tel" name="representative.phoneNumber" minlength=9
+              formControlName="representative.phoneNumber">
+            </ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size-md="3" size="12">
+          <ion-item class="input">
+            <ion-label color="medium" position="floating">Email</ion-label>
+            <ion-input type="email" name="representative.email" formControlName="representative.email"></ion-input>
+          </ion-item>
+        </ion-col>
+
+      </ion-row>
+
+
+    </ion-grid>
+    <ion-button type="submit">Alta</ion-button>
+  </form>
+
+</ion-content>

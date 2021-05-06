@@ -1,0 +1,121 @@
+<app-header [titulo]="titulo"></app-header>
+
+<ion-content color="light">
+
+
+  <div class="ion-padding button-container ion-justify-content-between">
+    <ion-button class="purple" (click)="showSearchForm = !showSearchForm">
+      <ion-icon name="search-outline"></ion-icon> Búsqueda avanzada
+    </ion-button>
+
+    <ion-button class="purple" (click)="presentAddClientModal()">
+      <ion-icon name="add-outline"></ion-icon> Nuevo
+    </ion-button>
+  </div>
+
+  <div class="ion-padding" *ngIf="showSearchForm">
+
+    <ion-card class="ion-padding">
+      <form [formGroup]="clientSearchForm" (submit)="search()" method="post">
+
+        <ion-grid>
+
+          <ion-row>
+
+            <ion-col size-md="3" size="6">
+              <ion-item>
+                <ion-label color="medium" position="floating">Id</ion-label>
+                <ion-input type="number" name="clientId" formControlName="clientId">
+                </ion-input>
+              </ion-item>
+            </ion-col>
+
+            <ion-col size-md="3" size="6">
+              <ion-item>
+                <ion-label color="medium" position="floating">Identificación</ion-label>
+                <ion-input type="text" name="identification" formControlName="identification">
+                </ion-input>
+              </ion-item>
+            </ion-col>
+
+            <ion-col size-md="6" size="12">
+              <ion-item class="input">
+                <ion-label color="medium" position="floating">Nombre</ion-label>
+                <ion-input type="text" name="name" formControlName="name"></ion-input>
+              </ion-item>
+            </ion-col>
+
+            <ion-col size-md="3" size="6">
+              <ion-item>
+                <ion-label color="medium" position="floating">Teléfono</ion-label>
+                <ion-input type="tel" name="phoneNumber" formControlName="phoneNumber">
+                </ion-input>
+              </ion-item>
+            </ion-col>
+
+            <ion-col size-md="3" size="6">
+              <ion-item>
+                <ion-label color="medium" position="floating">Apellidos</ion-label>
+                <ion-input type="text" name="lastName1" formControlName="lastName1">
+                </ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+        </ion-grid>
+        <ion-button type="submit">Buscar</ion-button>
+      </form>
+
+    </ion-card>
+  </div>
+
+  <div *ngIf="dataClients">
+
+    <mat-paginator [pageSizeOptions]="pageSizeOptions" [pageSize]="pageSize" [length]="resultsLength"
+      (page)="pageEvent = pageChanged($event)">
+    </mat-paginator>
+    <mat-table [dataSource]="dataClients" [class.loading-table]="isLoadingResults">
+
+      <ng-container matColumnDef="clientId">
+        <mat-header-cell *matHeaderCellDef> Id </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.clientId}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="lastName1">
+        <mat-header-cell *matHeaderCellDef> Apellidos </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.lastName1}} {{element.lastName2}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="address">
+        <mat-header-cell *matHeaderCellDef> Dirección </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.address}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="phoneNumber">
+        <mat-header-cell *matHeaderCellDef> Teléfono </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.phoneNumber}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <!-- By clicking a row redirects to client info. -->
+      <mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['/client-info',row.clientId]"
+        routerDirection="forward"></mat-row>
+
+      <!-- Row shown when there is no matching data. -->
+      <mat-row *matNoDataRow>
+        <mat-cell colspan="4">No se encuentran resultados que coincidan con "{{input.value}}"</mat-cell>
+      </mat-row>
+    </mat-table>
+  </div>
+
+</ion-content>
